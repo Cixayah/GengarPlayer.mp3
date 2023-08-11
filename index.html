@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Playlist Cix</title>
+<img src="https://i.pinimg.com/originals/61/90/b5/6190b541579ccdce26c4957664000c88.gif" alt="">
+</head>
+
+<body>
+    <div class="player">
+
+        <div class="logo">
+            <i class='bx bx-music'></i>
+        </div>
+
+        <span id="musicName"></span>
+        
+        <audio id="player" src=""></audio>
+        <div class="controls">
+            <button id="prevButton"><i class='bx bx-skip-previous'></i></button>
+            <button id="playPauseButton"><i class='bx bx-caret-right'></i></button>
+            <button id="nextButton"><i class='bx bx-skip-next'></i></button>
+            <div class="volume">
+                <label for="volumeSlider">Volume:</label>
+                <input id="volumeSlider" type="range" min="0" max="100" value="100" step="1">
+            </div>
+        </div>
+        <div class="footer">
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+            </div>
+            <div class="time">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./js/script.js"></script>
+</body>
+
+</html>
