@@ -95,6 +95,14 @@ const shuffleArray = (array) => {
 window.addEventListener("load", () => {
     shuffleArray(songs);
     loadAndPlaySong(0);
+    
+    volumeSlider.value = 20; // Define o valor inicial do controle de volume
+    audio.volume = volumeSlider.value / 100; // Configura o volume inicial com base no controle de volume
+    
+    volumeSlider.addEventListener("input", () => {
+        const volume = volumeSlider.value / 100;
+        audio.volume = volume;
+    });
 });
 
 // Efeito de movimento do Gengar
