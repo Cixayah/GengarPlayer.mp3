@@ -1,4 +1,4 @@
-// script.js
+// Seleciona os elementos do HTML
 const audio = document.getElementById("player");
 const musicName = document.getElementById("musicName");
 const playPauseButton = document.getElementById("playPauseButton");
@@ -9,6 +9,7 @@ const duration = document.getElementById("duration");
 const progress = document.getElementById("progress");
 const volumeSlider = document.getElementById("volumeSlider");
 
+// Lista de músicas
 let index = 0;
 const songs = [
     {
@@ -26,11 +27,46 @@ const songs = [
     // ... outras músicas
 ];
 
+// Atualiza o tempo da música e a barra de progresso
 audio.addEventListener("timeupdate", () => {
     updateTime();
     updateProgressBar();
 });
 
+// Função para atualizar o tempo de reprodução
+const updateTime = () => {
+    const currentMinutes = Math.floor(audio.currentTime / 60);
+    const currentSeconds = Math.floor(audio.currentTime % 60);
+    currentTime.textContent = `${currentMinutes}:${formatZero(currentSeconds)}`;
+
+    const durationFormatted = isNaN(audio.duration) ? 0 : audio.duration;
+    const durationMinutes = Math.floor(durationFormatted / 60);
+    const durationSeconds = Math.floor(durationFormatted % 60);
+    duration.textContent = `${durationMinutes}:${formatZero(durationSeconds)}`;
+};
+
+// Função para formatar números menores que 10 com zero à esquerda
+const formatZero = (n) => (n < 10 ? `0${n}` : n);
+
+// Função para atualizar a barra de progresso
+const updateProgressBar = () => {
+    const progressWidth = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = `${progressWidth}%`;
+};
+
+// Evento de clique na barra de progresso para definir a posição da música
+const progressBar = document.querySelector(".progress-bar");
+
+progressBar.addEventListener("click", (event) => {
+    const progressBarWidth = progressBar.offsetWidth;
+    const clickPosition = event.clientX - progressBar.getBoundingClientRect().left;
+    const newTime = (clickPosition / progressBarWidth) * audio.duration;
+
+    audio.currentTime = newTime;
+});
+
+
+// Função para reproduzir ou pausar a música
 const playPause = () => {
     if (audio.paused) {
         audio.play();
@@ -43,17 +79,7 @@ const playPause = () => {
 
 playPauseButton.addEventListener("click", playPause);
 
-const updateTime = () => {
-    const currentMinutes = Math.floor(audio.currentTime / 60);
-    const currentSeconds = Math.floor(audio.currentTime % 60);
-    currentTime.textContent = `${currentMinutes}:${formatZero(currentSeconds)}`;
-
-    const durationFormatted = isNaN(audio.duration) ? 0 : audio.duration;
-    const durationMinutes = Math.floor(durationFormatted / 60);
-    const durationSeconds = Math.floor(durationFormatted % 60);
-    duration.textContent = `${durationMinutes}:${formatZero(durationSeconds)}`;
-};
-
+// Função para carregar e reproduzir uma música
 const loadAndPlaySong = (songIndex) => {
     index = (songIndex + songs.length) % songs.length;
     const song = songs[index];
@@ -66,25 +92,7 @@ const loadAndPlaySong = (songIndex) => {
 prevButton.addEventListener("click", () => loadAndPlaySong(index - 1));
 nextButton.addEventListener("click", () => loadAndPlaySong((index + 1) % songs.length));
 
-const formatZero = (n) => (n < 10 ? `0${n}` : n);
-
-const updateProgressBar = () => {
-    const progressWidth = (audio.currentTime / audio.duration) * 100;
-    progress.style.width = `${progressWidth}%`;
-};
-
-progress.addEventListener("click", (event) => {
-    const progressBarWidth = progress.offsetWidth;
-    const clickPosition = event.clientX - progress.getBoundingClientRect().left;
-    const newTime = (clickPosition / progressBarWidth) * audio.duration;
-
-    audio.currentTime = newTime;
-});
-
-audio.addEventListener("ended", () => {
-    loadAndPlaySong(index + 1);
-});
-
+// Função para embaralhar a lista de músicas
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -92,9 +100,22 @@ const shuffleArray = (array) => {
     }
 };
 
+// Evento de carregamento da página
 window.addEventListener("load", () => {
     shuffleArray(songs);
     loadAndPlaySong(0);
+    
+    // Define o valor inicial do controle de volume
+    volumeSlider.value = 10;
+    
+    // Configura o volume inicial com base no controle de volume
+    audio.volume = volumeSlider.value / 100;
+    
+    // Evento de alteração no controle de volume
+    volumeSlider.addEventListener("input", () => {
+        const volume = volumeSlider.value / 100;
+        audio.volume = volume;
+    });
 });
 
 // Efeito de movimento do Gengar
@@ -103,6 +124,7 @@ const gengar = document.getElementById("Gengar");
 function moveGengar() {
     const translateX = Math.random() * 100 - 5;
     const translateY = Math.random() * 10 - 5;
+    
     gengar.style.transform = `translate(${translateX}px, ${translateY}px)`;
 }
 
@@ -126,19 +148,4 @@ volumeSlider.addEventListener("input", () => {
     const volume = volumeSlider.value / 100;
     audio.volume = volume;
 });
-// ...
 
-window.addEventListener("load", () => {
-    shuffleArray(songs);
-    loadAndPlaySong(0);
-    
-    volumeSlider.value = 10; // Define o valor inicial do controle de volume
-    audio.volume = volumeSlider.value / 100; // Configura o volume inicial com base no controle de volume
-    
-    volumeSlider.addEventListener("input", () => {
-        const volume = volumeSlider.value / 100;
-        audio.volume = volume;
-    });
-});
-
-// ...
