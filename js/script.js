@@ -65,7 +65,6 @@ progressBar.addEventListener("click", (event) => {
     audio.currentTime = newTime;
 });
 
-
 // Função para reproduzir ou pausar a música
 const playPause = () => {
     if (audio.paused) {
@@ -104,13 +103,13 @@ const shuffleArray = (array) => {
 window.addEventListener("load", () => {
     shuffleArray(songs);
     loadAndPlaySong(0);
-    
+
     // Define o valor inicial do controle de volume
     volumeSlider.value = 10;
-    
+
     // Configura o volume inicial com base no controle de volume
     audio.volume = volumeSlider.value / 100;
-    
+
     // Evento de alteração no controle de volume
     volumeSlider.addEventListener("input", () => {
         const volume = volumeSlider.value / 100;
@@ -124,7 +123,7 @@ const gengar = document.getElementById("Gengar");
 function moveGengar() {
     const translateX = Math.random() * 100 - 5;
     const translateY = Math.random() * 10 - 5;
-    
+
     gengar.style.transform = `translate(${translateX}px, ${translateY}px)`;
 }
 
@@ -147,5 +146,9 @@ setInterval(changeBackgroundColor, 1000); // Altera a cor de fundo a cada segund
 volumeSlider.addEventListener("input", () => {
     const volume = volumeSlider.value / 100;
     audio.volume = volume;
+});
+
+audio.addEventListener("ended", () => {
+    loadAndPlaySong((index + 1) % songs.length);
 });
 
