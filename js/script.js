@@ -21,8 +21,8 @@ const songs = [
         name: "Tuca Tuca",
     },
     {
-        src: "./musics/3.mp3",
-        name: "Automotivo Bibi",
+        src: "./musics/pedro.mp3",
+        name: "Pedro",
     },
     // ... outras músicas
 ];
